@@ -1,5 +1,6 @@
 package com.GUI;
 
+import com.components.JButtons;
 import com.socket.Client;
 
 import javax.swing.JFrame;
@@ -17,7 +18,7 @@ public class Principal extends JFrame{
         setResizable(false);
         setLayout(null);
         setSize(1080, 540);
-        setContentPane(new Login(this));
+        setContentPane(new Menu(this));
         client = new Client();
         client.createAndConect();
     }

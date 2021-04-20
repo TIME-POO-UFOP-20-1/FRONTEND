@@ -14,7 +14,7 @@ public class Client {
 
     public void createAndConect(){
         try {
-            socket = new Socket("192.168.2.4", 3000);
+            socket = new Socket("192.168.2.3", 3000);
             System.out.println("Connected to server ...");
         } catch (IOException e) {
             e.printStackTrace();

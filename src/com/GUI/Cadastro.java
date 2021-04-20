@@ -14,13 +14,21 @@ import java.util.Objects;
 
 public class Cadastro extends JPanel implements ActionListener {
 
-    JButtons Cadastrar = new JButtons(125, 25, "CADASTRAR");
-    JButtons Voltar = new JButtons(125, 25, "VOLTAR");
+    private final JButtons Cadastrar = new JButtons(125, 25, "CADASTRAR");
+    private final JButtons Voltar = new JButtons(125, 25, "VOLTAR");
+    private final JTextField UsuarioField = new JTextField();
+    private final JTextField SenhaField = new JTextField();
+
     private final Principal parent;
 
 
     public Cadastro(Principal parent){
+        super();
         this.parent = parent;
+        createGUI();
+    }
+
+    private void createGUI(){
         this.setBounds(0, 0, 1080, 540);
         this.setLayout(null);
         this.add(Container());
@@ -73,6 +81,7 @@ public class Cadastro extends JPanel implements ActionListener {
 
     private JPanels CPanel(){
         JPanels CPanel = new JPanels(10, 40, 125, 30);
+        Cadastrar.addActionListener(this);
         CPanel.add(Cadastrar);
         return CPanel;
     }
@@ -98,7 +107,6 @@ public class Cadastro extends JPanel implements ActionListener {
     }
 
     private JTextField UsuarioField(){
-        JTextField UsuarioField = new JTextField();
         UsuarioField.setBounds(0, 0, 150, 30);
         return UsuarioField;
     }
@@ -117,7 +125,6 @@ public class Cadastro extends JPanel implements ActionListener {
     }
 
     private JTextField SenhaField(){
-        JTextField SenhaField = new JTextField();
         SenhaField.setBounds(0, 0, 150, 30);
         return SenhaField;
     }
@@ -127,7 +134,11 @@ public class Cadastro extends JPanel implements ActionListener {
         if(e.getSource()==Voltar){
             handleGoBack();
         }else if(e.getSource()==Cadastrar){
-            handleCadastro();
+            try {
+                handleCadastro();
+            } catch (InterruptedException interruptedException) {
+                interruptedException.printStackTrace();
+            }
         }
     }
 
@@ -135,8 +146,12 @@ public class Cadastro extends JPanel implements ActionListener {
         parent.setContentPane(new Login(parent));
     }
 
-    private void handleCadastro(){
+    private void handleCadastro() throws InterruptedException {
         parent.sendMessage("cadastro");
+        Thread.sleep(1000);
+        parent.sendMessage(UsuarioField.getText());
+        Thread.sleep(1000);
+        parent.sendMessage(SenhaField.getText());
     }
 
 }

@@ -20,10 +20,12 @@ import java.util.Objects;
 public class Login extends JPanel implements ActionListener {
 
     private final Principal parent;
+    private final JTextField UsuarioField = new JTextField();
+    private final JTextField SenhaField = new JTextField();
+    private final JButtons Entrar = new JButtons(125, 25, "ENTRAR");
+    private final JButtons Cadastrar = new JButtons(125, 25, "CADASTRAR");
+    private final JButtons Sair = new JButtons(125, 25, "SAIR");
 
-    JButtons Entrar = new JButtons(125, 25, "ENTRAR");
-    JButtons Cadastrar = new JButtons(125, 25, "CADASTRAR");
-    JButtons Sair = new JButtons(125, 25, "SAIR");
 
     public Login(Principal principal) {
         super();
@@ -43,7 +45,6 @@ public class Login extends JPanel implements ActionListener {
     private JPanels Container() {
         JPanels container = new JPanels(0, 0, 250, 540);
         container.setLayout(null);
-        container.setBackground(Color.blue);
         container.add(Logo());
         container.add(Formulario());
         container.add(ButtonsPanel());
@@ -85,6 +86,7 @@ public class Login extends JPanel implements ActionListener {
 
     private JPanels EPanel(){
         JPanels EPanel = new JPanels(10, 5, 125, 30);
+        Entrar.addActionListener(this);
         EPanel.add(Entrar);
         return EPanel;
     }
@@ -98,6 +100,7 @@ public class Login extends JPanel implements ActionListener {
 
     private JPanels SPanel(){
         JPanels SPanel = new JPanels(10, 75, 125, 30);
+        Sair.addActionListener(this);
         SPanel.add(Sair);
         return SPanel;
     }
@@ -116,7 +119,6 @@ public class Login extends JPanel implements ActionListener {
     }
 
     private JTextField UsuarioField(){
-        JTextField UsuarioField = new JTextField();
         UsuarioField.setBounds(0, 0, 150, 30);
         return UsuarioField;
     }
@@ -135,7 +137,6 @@ public class Login extends JPanel implements ActionListener {
     }
 
     private JTextField SenhaField(){
-        JTextField SenhaField = new JTextField();
         SenhaField.setBounds(0, 0, 150, 30);
         return SenhaField;
     }
@@ -144,14 +145,32 @@ public class Login extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==Cadastrar){
             handleCadastro();
+        }else if(e.getSource()==Sair) {
+            handleSair();
+        }else if(e.getSource()==Entrar){
+            try {
+                handleLogin();
+            } catch (InterruptedException interruptedException) {
+                interruptedException.printStackTrace();
+            }
         }
+    }
+
+    private void handleLogin() throws InterruptedException {
+        parent.sendMessage("login");
+        Thread.sleep(1000);
+        parent.sendMessage(UsuarioField.getText());
+        Thread.sleep(1000);
+        parent.sendMessage(SenhaField.getText());
+        parent.setContentPane(new Menu(parent));
     }
 
     private void handleCadastro() {
         parent.setContentPane(new Cadastro(parent));
     }
 
-
-
+    private void handleSair(){
+        parent.sendMessage("close");
+    }
 
 }
