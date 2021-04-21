@@ -1,11 +1,12 @@
 package com.GUI;
 
+import com.GUI.Auth.Login;
 import com.socket.Client;
 
 import javax.swing.JFrame;
 
 public class Principal extends JFrame{
-    private Client client;
+    private final Client client = new Client();
 
     public Principal(String title){
         super(title);
@@ -18,7 +19,6 @@ public class Principal extends JFrame{
         setLayout(null);
         setSize(1080, 540);
         setContentPane(new Login(this));
-        client = new Client();
         client.createAndConect();
     }
 

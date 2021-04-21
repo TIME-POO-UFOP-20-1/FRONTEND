@@ -1,5 +1,8 @@
-package com.GUI;
+package com.GUI.Admin;
 
+import com.GUI.Admin.UserCard.User;
+import com.GUI.Auth.Login;
+import com.GUI.Principal;
 import com.components.Background;
 import com.components.JButtons;
 import com.components.JPanels;
@@ -9,7 +12,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
-import java.util.List;
 
 
 public class Menu extends JPanel implements ActionListener {
@@ -22,12 +24,6 @@ public class Menu extends JPanel implements ActionListener {
     private final JButtons payments = new JButtons(75, 70, "pagamentos", "/assets/paymentsIcon.png");
     private final JButtons configurations = new JButtons(75, 70, "configurações", "/assets/configureIcon.png");
     private final JButtons exit = new JButtons(75, 70, "sair", "/assets/exitIcon.png");
-
-    private List<String> setUser;
-
-    private final JButtons newUser = new JButtons(90, 30, "Novo");
-    private final JButtons changeUser = new JButtons(90, 30, "Alterar");
-    private final JButtons deleteUser = new JButtons(90, 30, "Apagar");
 
     public Menu(Principal parent){
         super();
@@ -125,8 +121,9 @@ public class Menu extends JPanel implements ActionListener {
 
     private JPanels cardPanels(){
         cardPanels.setLayout(card);
-        cardPanels.add(backgroundPanel("/assets/menuAdmin.png", 75, 1005), "backgroundPanel");
-        cardPanels.add(usersMenu(), "usersMenu");
+
+        cardPanels.add(new JPanels("/assets/menuAdmin.png", 75, 0, 1005, 540), "backgroundPanel");
+        cardPanels.add(new User(parent), "usersMenu");
         cardPanels.add(workesMenu(), "workesMenu");
         cardPanels.add(appointmentsMenu(), "appointmentsMenu");
         cardPanels.add(paymentsMenu(), "paymentsMenu");
@@ -134,79 +131,11 @@ public class Menu extends JPanel implements ActionListener {
         return cardPanels;
     }
 
-    private JPanels backgroundPanel(String path, int x, int w){
-        JPanels Container = new JPanels(x, 0, w, 540);
-        Background bg = new Background(new ImageIcon(Objects.requireNonNull(getClass().getResource(path))).getImage());
-        bg.setBounds(x, 0, w, 540);
-        Container.add(bg);
-        return Container;
-    }
-
-    private JPanels usersMenu(){
-        JPanels Container = new JPanels(75, 0, 1005, 540);
-        Container.setLayout(null);
-        Container.add(usersMenuOptionsPanel());
-        Container.add(backgroundPanel("/assets/menuUsers.png", 505, 505));
-        return Container;
-    }
-
-    private JPanels usersMenuOptionsPanel(){
-        JPanels Container = new JPanels(0, 0, 500, 540);
-        Container.setLayout(null);
-        Container.add(usersListPanel());
-        Container.add(usersListPanelButtons());
-        return Container;
-    }
-
-    private JPanels usersListPanel(){
-        JPanels Container = new JPanels(50, 50, 400, 440);
-        parent.sendMessage("userList");
-        setUser = (List<String>) parent.getObject();
-        try {
-            JList<Object> list = new JList<>(setUser.toArray());
-            list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-            list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-            list.setVisibleRowCount(-1);
-            JScrollPane listScroller = new JScrollPane(list);
-            listScroller.setPreferredSize(new Dimension(250, 80));
-            Container.add(list);
-        }catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-        return Container;
-    }
-
-    private JPanels usersListPanelButtons(){
-        JPanels Container = new JPanels(0, 10, 400, 40);
-        Container.add(usersListnewUserPanel());
-        Container.add(usersListchangeUserPanel());
-        Container.add(usersListdeleteUserPanel());
-        return Container;
-    }
-
-    private JPanel usersListnewUserPanel(){
-        JPanels Container = new JPanels(0, 0, 100, 30);
-        Container.add(newUser);
-        return Container;
-    }
-
-    private JPanel usersListchangeUserPanel(){
-        JPanels Container = new JPanels(0, 0, 100, 30);
-        Container.add(changeUser);
-        return Container;
-    }
-
-    private JPanel usersListdeleteUserPanel(){
-        JPanels Container = new JPanels(0, 0, 100, 30);
-        Container.add(deleteUser);
-        return Container;
-    }
-
     private JPanels workesMenu(){
         JPanels Container = new JPanels(75, 0, 1005, 540);
         Container.setLayout(null);
         Container.add(workesMenuOptionsPanel());
-        Container.add(backgroundPanel("/assets/menuWorkers.png", 505, 505));
+        Container.add(new JPanels("/assets/menuWorkers.png", 505, 0, 505, 540));
         return Container;
     }
 
@@ -220,7 +149,7 @@ public class Menu extends JPanel implements ActionListener {
         JPanels Container = new JPanels(75, 0, 1005, 540);
         Container.setLayout(null);
         Container.add(appointmentsMenuOptionsPanel());
-        Container.add(backgroundPanel("/assets/menuAppointment.png", 505, 505));
+        Container.add(new JPanels("/assets/menuAppointment.png", 505, 0, 505, 540));
         return Container;
     }
 
@@ -235,7 +164,7 @@ public class Menu extends JPanel implements ActionListener {
         JPanels Container = new JPanels(75, 0, 1005, 540);
         Container.setLayout(null);
         Container.add(paymentsMenuOptionsPanel());
-        Container.add(backgroundPanel("/assets/menuPayments.png", 505, 505));
+        Container.add(new JPanels("/assets/menuPayments.png", 505, 0, 505, 540));
         return Container;
     }
 
