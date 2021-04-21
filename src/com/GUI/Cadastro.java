@@ -152,6 +152,10 @@ public class Cadastro extends JPanel implements ActionListener {
         parent.sendMessage(UsuarioField.getText());
         Thread.sleep(1000);
         parent.sendMessage(SenhaField.getText());
+        boolean confirmation = parent.getConfirmation();
+        if (confirmation) {
+            handleGoBack();
+        }
     }
 
 }

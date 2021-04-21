@@ -1,6 +1,5 @@
 package com.GUI;
 
-import com.components.JButtons;
 import com.socket.Client;
 
 import javax.swing.JFrame;
@@ -18,7 +17,7 @@ public class Principal extends JFrame{
         setResizable(false);
         setLayout(null);
         setSize(1080, 540);
-        setContentPane(new Menu(this));
+        setContentPane(new Login(this));
         client = new Client();
         client.createAndConect();
     }
@@ -26,4 +25,19 @@ public class Principal extends JFrame{
     public void sendMessage(String message){
         client.sendStringMessage(message);
     }
+
+    public boolean getConfirmation(){
+        client.getConfirmationFromServer();
+        return client.getConfirmation();
+    }
+
+    public Object getObject(){
+        client.getObjectFromServer();
+        return client.getObject();
+    }
+
+    public void stopConection(){
+        client.stopConnection();
+    }
+
 }

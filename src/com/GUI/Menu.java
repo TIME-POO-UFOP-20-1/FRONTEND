@@ -8,7 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Objects;
+import java.util.*;
+import java.util.List;
 
 
 public class Menu extends JPanel implements ActionListener {
@@ -21,6 +22,12 @@ public class Menu extends JPanel implements ActionListener {
     private final JButtons payments = new JButtons(75, 70, "pagamentos", "/assets/paymentsIcon.png");
     private final JButtons configurations = new JButtons(75, 70, "configurações", "/assets/configureIcon.png");
     private final JButtons exit = new JButtons(75, 70, "sair", "/assets/exitIcon.png");
+
+    private List<String> setUser;
+
+    private final JButtons newUser = new JButtons(90, 30, "Novo");
+    private final JButtons changeUser = new JButtons(90, 30, "Alterar");
+    private final JButtons deleteUser = new JButtons(90, 30, "Apagar");
 
     public Menu(Principal parent){
         super();
@@ -146,6 +153,52 @@ public class Menu extends JPanel implements ActionListener {
     private JPanels usersMenuOptionsPanel(){
         JPanels Container = new JPanels(0, 0, 500, 540);
         Container.setLayout(null);
+        Container.add(usersListPanel());
+        Container.add(usersListPanelButtons());
+        return Container;
+    }
+
+    private JPanels usersListPanel(){
+        JPanels Container = new JPanels(50, 50, 400, 440);
+        parent.sendMessage("userList");
+        setUser = (List<String>) parent.getObject();
+        try {
+            JList<Object> list = new JList<>(setUser.toArray());
+            list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+            list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+            list.setVisibleRowCount(-1);
+            JScrollPane listScroller = new JScrollPane(list);
+            listScroller.setPreferredSize(new Dimension(250, 80));
+            Container.add(list);
+        }catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+        return Container;
+    }
+
+    private JPanels usersListPanelButtons(){
+        JPanels Container = new JPanels(0, 10, 400, 40);
+        Container.add(usersListnewUserPanel());
+        Container.add(usersListchangeUserPanel());
+        Container.add(usersListdeleteUserPanel());
+        return Container;
+    }
+
+    private JPanel usersListnewUserPanel(){
+        JPanels Container = new JPanels(0, 0, 100, 30);
+        Container.add(newUser);
+        return Container;
+    }
+
+    private JPanel usersListchangeUserPanel(){
+        JPanels Container = new JPanels(0, 0, 100, 30);
+        Container.add(changeUser);
+        return Container;
+    }
+
+    private JPanel usersListdeleteUserPanel(){
+        JPanels Container = new JPanels(0, 0, 100, 30);
+        Container.add(deleteUser);
         return Container;
     }
 

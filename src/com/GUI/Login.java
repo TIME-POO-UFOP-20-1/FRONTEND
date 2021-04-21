@@ -162,7 +162,10 @@ public class Login extends JPanel implements ActionListener {
         parent.sendMessage(UsuarioField.getText());
         Thread.sleep(1000);
         parent.sendMessage(SenhaField.getText());
-        parent.setContentPane(new Menu(parent));
+        boolean confirmation = parent.getConfirmation();
+        if (confirmation) {
+            parent.setContentPane(new Menu(parent));
+        }
     }
 
     private void handleCadastro() {
@@ -171,6 +174,7 @@ public class Login extends JPanel implements ActionListener {
 
     private void handleSair(){
         parent.sendMessage("close");
+        parent.stopConection();
     }
 
 }
